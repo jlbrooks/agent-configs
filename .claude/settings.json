@@ -1,0 +1,21 @@
+{
+  "model": "opus",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/git_safety_guard.py"
+          }
+        ]
+      }
+    ]
+  },
+  "enabledPlugins": {
+    "ralph-wiggum@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": true,
+    "dev-browser@dev-browser-marketplace": true
+  }
+}
