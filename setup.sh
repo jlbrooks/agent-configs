@@ -104,6 +104,7 @@ backup_item() {
 ITEMS=(
   ".claude/settings.json|$HOME/.claude/settings.json"
   "AGENTS.md|$HOME/.codex/AGENTS.md"
+  "AGENTS.md|$HOME/.claude/AGENTS.md"
   "CLAUDE.md|$HOME/.claude/CLAUDE.md"
   "commands|$HOME/.claude/commands"
   "commands|$HOME/.codex/prompts"
