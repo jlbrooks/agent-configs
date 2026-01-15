@@ -241,14 +241,14 @@ for entry in "${ITEMS[@]}"; do
 
 done
 
-# Handle skills: symlink to ~/.config/claude/skills/
+# Handle skills: symlink to ~/.claude/skills/
 # (Claude Code discovers skills from this location)
 SKILLS_SRC="$REPO_ROOT/skills"
-SKILLS_DEST="$HOME/.config/claude/skills"
+SKILLS_DEST="$HOME/.claude/skills"
 
 if [ -d "$SKILLS_SRC" ]; then
   echo
-  echo "==> Skills (linking to ~/.config/claude/skills/)"
+  echo "==> Skills (linking to ~/.claude/skills/)"
   mkdir -p "$SKILLS_DEST"
 
   for skill_path in "$SKILLS_SRC"/*; do
