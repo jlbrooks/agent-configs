@@ -241,6 +241,42 @@ for entry in "${ITEMS[@]}"; do
 
 done
 
+# Handle skills: create relative symlinks in commands/ folder
+# (commands/ is already symlinked to both Claude and Codex destinations)
+SKILLS_SRC="$REPO_ROOT/skills"
+COMMANDS_DIR="$REPO_ROOT/commands"
+
+if [ -d "$SKILLS_SRC" ]; then
+  echo
+  echo "==> Skills (linking into commands/)"
+
+  for skill_path in "$SKILLS_SRC"/*; do
+    [ -e "$skill_path" ] || continue
+    skill_name="$(basename "$skill_path")"
+    dest="$COMMANDS_DIR/$skill_name"
+    rel_target="../skills/$skill_name"
+
+    if [ -L "$dest" ] && [ "$(readlink "$dest")" = "$rel_target" ]; then
+      echo "  $skill_name: already linked"
+      unchanged+=("skills/$skill_name")
+    elif [ -e "$dest" ]; then
+      echo "  $skill_name: exists but not correct symlink"
+      if confirm "    Replace?" N; then
+        rm -rf "$dest"
+        ln -s "$rel_target" "$dest"
+        installed+=("skills/$skill_name")
+        echo "    Linked."
+      else
+        skipped+=("skills/$skill_name")
+      fi
+    else
+      ln -s "$rel_target" "$dest"
+      echo "  $skill_name: linked"
+      installed+=("skills/$skill_name")
+    fi
+  done
+fi
+
 # Handle config.toml merge separately
 merge_codex_config
 

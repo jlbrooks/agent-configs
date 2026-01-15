@@ -17,6 +17,7 @@ This symlinks configs to their expected locations:
 | `.claude/settings.json` | `~/.claude/settings.json` |
 | `.codex/config.toml` | `~/.codex/config.toml` (merged) |
 | `commands/` | `~/.claude/commands/`, `~/.codex/prompts/` |
+| `skills/` | Symlinked into `commands/` (relative links) |
 | `hooks/` | `~/.claude/hooks/` |
 
 ## Structure
@@ -24,7 +25,15 @@ This symlinks configs to their expected locations:
 ```
 ├── AGENTS.md              # Shared agent instructions (both tools)
 ├── CLAUDE.md              # Imports AGENTS.md for Claude Code
-├── commands/              # Slash commands (shared)
+├── commands/              # Simple slash commands (shared)
+│   └── interview.md
+├── skills/                # Complex skills with scripts/references
+│   ├── writing-skills/    # Meta-skill for creating skills
+│   │   ├── SKILL.md
+│   │   └── references/
+│   └── reading-pdfs/      # PDF text extraction
+│       ├── SKILL.md
+│       └── scripts/
 ├── hooks/                 # Claude Code hooks
 │   └── git_safety_guard.py
 ├── .claude/
@@ -37,4 +46,9 @@ This symlinks configs to their expected locations:
 ## Notes
 
 - `config.toml` is merged, not symlinked. Base settings come from repo; local project trust entries are preserved below the marker line.
+- Skills are symlinked into `commands/` via relative links, so they work in both Claude and Codex.
 - Run `./setup.sh` again after pulling updates to refresh configs.
+
+## Creating Skills
+
+Use `/writing-skills` or see `skills/writing-skills/` for the meta-skill that documents skill creation patterns.

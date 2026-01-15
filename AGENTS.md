@@ -82,6 +82,13 @@ Read `~/projects/agent-configs/tools.md` for the full tool catalog if it exists.
 - Global: `~/.codex/prompts/`. Repo-local: `docs/slash-commands/`.
 - Common: `/handoff`, `/pickup`.
 
+### Skills
+- Location: `~/projects/agent-configs/skills/`
+- Structure: `skills/<skill-name>/SKILL.md` + optional `references/`, `scripts/`, `assets/`
+- Simple skills: flat `.md` in `skills/` ok
+- New skills default here unless repo-specific
+- Use `/writing-skills` to create new skills
+
 ### tmux
 - Use only when you need persistence/interaction (debugger/server).
 - Quick refs: `tmux new -d -s codex-shell`, `tmux attach -t codex-shell`, `tmux list-sessions`, `tmux kill-session -t codex-shell`.
