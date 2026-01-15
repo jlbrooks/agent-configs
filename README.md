@@ -17,7 +17,7 @@ This symlinks configs to their expected locations:
 | `.claude/settings.json` | `~/.claude/settings.json` |
 | `.codex/config.toml` | `~/.codex/config.toml` (merged) |
 | `commands/` | `~/.claude/commands/`, `~/.codex/prompts/` |
-| `skills/` | Symlinked into `commands/` (relative links) |
+| `skills/` | `~/.config/claude/skills/` |
 | `hooks/` | `~/.claude/hooks/` |
 
 ## Structure
@@ -46,7 +46,7 @@ This symlinks configs to their expected locations:
 ## Notes
 
 - `config.toml` is merged, not symlinked. Base settings come from repo; local project trust entries are preserved below the marker line.
-- Skills are symlinked into `commands/` via relative links, so they work in both Claude and Codex.
+- Skills are symlinked to `~/.config/claude/skills/` where Claude Code discovers them.
 - Run `./setup.sh` again after pulling updates to refresh configs.
 
 ## Creating Skills

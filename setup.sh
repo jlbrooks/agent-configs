@@ -241,36 +241,36 @@ for entry in "${ITEMS[@]}"; do
 
 done
 
-# Handle skills: create relative symlinks in commands/ folder
-# (commands/ is already symlinked to both Claude and Codex destinations)
+# Handle skills: symlink to ~/.config/claude/skills/
+# (Claude Code discovers skills from this location)
 SKILLS_SRC="$REPO_ROOT/skills"
-COMMANDS_DIR="$REPO_ROOT/commands"
+SKILLS_DEST="$HOME/.config/claude/skills"
 
 if [ -d "$SKILLS_SRC" ]; then
   echo
-  echo "==> Skills (linking into commands/)"
+  echo "==> Skills (linking to ~/.config/claude/skills/)"
+  mkdir -p "$SKILLS_DEST"
 
   for skill_path in "$SKILLS_SRC"/*; do
     [ -e "$skill_path" ] || continue
     skill_name="$(basename "$skill_path")"
-    dest="$COMMANDS_DIR/$skill_name"
-    rel_target="../skills/$skill_name"
+    dest="$SKILLS_DEST/$skill_name"
 
-    if [ -L "$dest" ] && [ "$(readlink "$dest")" = "$rel_target" ]; then
+    if is_same_link "$skill_path" "$dest"; then
       echo "  $skill_name: already linked"
       unchanged+=("skills/$skill_name")
     elif [ -e "$dest" ]; then
-      echo "  $skill_name: exists but not correct symlink"
+      echo "  $skill_name: exists but differs"
       if confirm "    Replace?" N; then
         rm -rf "$dest"
-        ln -s "$rel_target" "$dest"
+        ln -s "$skill_path" "$dest"
         installed+=("skills/$skill_name")
         echo "    Linked."
       else
         skipped+=("skills/$skill_name")
       fi
     else
-      ln -s "$rel_target" "$dest"
+      ln -s "$skill_path" "$dest"
       echo "  $skill_name: linked"
       installed+=("skills/$skill_name")
     fi
