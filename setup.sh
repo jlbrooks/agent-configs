@@ -241,39 +241,45 @@ for entry in "${ITEMS[@]}"; do
 
 done
 
-# Handle skills: symlink to ~/.claude/skills/
-# (Claude Code discovers skills from this location)
+# Handle skills: symlink to ~/.claude/skills/ and ~/.codex/skills/
 SKILLS_SRC="$REPO_ROOT/skills"
-SKILLS_DEST="$HOME/.claude/skills"
+SKILLS_DESTS=(
+  "$HOME/.claude/skills"
+  "$HOME/.codex/skills"
+)
 
 if [ -d "$SKILLS_SRC" ]; then
   echo
-  echo "==> Skills (linking to ~/.claude/skills/)"
-  mkdir -p "$SKILLS_DEST"
+  echo "==> Skills (linking to ~/.claude/skills/ and ~/.codex/skills/)"
 
-  for skill_path in "$SKILLS_SRC"/*; do
-    [ -e "$skill_path" ] || continue
-    skill_name="$(basename "$skill_path")"
-    dest="$SKILLS_DEST/$skill_name"
+  for skills_dest in "${SKILLS_DESTS[@]}"; do
+    echo "  Target: $skills_dest"
+    mkdir -p "$skills_dest"
 
-    if is_same_link "$skill_path" "$dest"; then
-      echo "  $skill_name: already linked"
-      unchanged+=("skills/$skill_name")
-    elif [ -e "$dest" ]; then
-      echo "  $skill_name: exists but differs"
-      if confirm "    Replace?" N; then
-        rm -rf "$dest"
-        ln -s "$skill_path" "$dest"
-        installed+=("skills/$skill_name")
-        echo "    Linked."
+    for skill_path in "$SKILLS_SRC"/*; do
+      [ -e "$skill_path" ] || continue
+      skill_name="$(basename "$skill_path")"
+      dest="$skills_dest/$skill_name"
+
+      if is_same_link "$skill_path" "$dest"; then
+        echo "    $skill_name: already linked"
+        unchanged+=("skills/$skill_name -> $skills_dest")
+      elif [ -e "$dest" ]; then
+        echo "    $skill_name: exists but differs"
+        if confirm "      Replace?" N; then
+          rm -rf "$dest"
+          ln -s "$skill_path" "$dest"
+          installed+=("skills/$skill_name -> $skills_dest")
+          echo "      Linked."
+        else
+          skipped+=("skills/$skill_name -> $skills_dest")
+        fi
       else
-        skipped+=("skills/$skill_name")
+        ln -s "$skill_path" "$dest"
+        echo "    $skill_name: linked"
+        installed+=("skills/$skill_name -> $skills_dest")
       fi
-    else
-      ln -s "$skill_path" "$dest"
-      echo "  $skill_name: linked"
-      installed+=("skills/$skill_name")
-    fi
+    done
   done
 fi
 

@@ -18,9 +18,11 @@ Work style: telegraph; noun-phrases ok; drop grammar; min tokens.
 - CI: `gh run list/view` (rerun/fix til green).
 - Prefer end-to-end verify; if blocked, say what’s missing.
 - New deps: quick health check (recent releases/commits, adoption).
-TODO - Slash cmds: `~/.codex/prompts/`.
 - Web: search early; quote exact errors; prefer 2024–2025 sources.
 - Style: telegraph. Drop filler/grammar. Min tokens (global AGENTS + replies).
+
+## Planning
+- Try not to ask many questions at once. Ask one at a time, and help me decide.
 
 ## Important Locations
 - Blog repo: `~/projects/jlbrooks.github.io`
