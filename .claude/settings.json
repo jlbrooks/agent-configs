@@ -1,6 +1,6 @@
 {
   "cleanupPeriodDays": 99999,
-  "model": "opus",
+  "model": "claude-fable-5[1m]",
   "hooks": {
     "PreToolUse": [
       {
@@ -12,12 +12,33 @@
           }
         ]
       }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash '/home/jacob/.claude/hooks/herdr-agent-state.sh' session",
+            "timeout": 10
+          }
+        ]
+      }
     ]
   },
   "enabledPlugins": {
-    "ralph-wiggum@claude-plugins-official": true,
+    "dev-browser@dev-browser-marketplace": true,
     "frontend-design@claude-plugins-official": true,
-    "dev-browser@dev-browser-marketplace": true
+    "plannotator@plannotator": true,
+    "ralph-wiggum@claude-plugins-official": true
+  },
+  "extraKnownMarketplaces": {
+    "plannotator": {
+      "source": {
+        "source": "github",
+        "repo": "backnotprop/plannotator"
+      }
+    }
   },
   "effortLevel": "high",
   "skipDangerousModePermissionPrompt": true

@@ -246,6 +246,7 @@ SKILLS_SRC="$REPO_ROOT/skills"
 SKILLS_DESTS=(
   "$HOME/.claude/skills"
   "$HOME/.codex/skills"
+  "$HOME/.agents/skills"
 )
 
 if [ -d "$SKILLS_SRC" ]; then
